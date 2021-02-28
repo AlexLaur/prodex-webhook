@@ -1,0 +1,39 @@
+# - config -
+#
+# This file is the configuration for the webhook.
+#
+# Copyright (c) 2020 Prodex
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+
+# Secret Key
+# Associate this key with your webhook in order to have secure endpoint.
+secret_key: "AAAAB3NzaC1yc2EAAAADAQABAAACAQCW9x3I2gA6Uxd9BPEjbW+WnsI6qmRRDFPLNUnFdBjK/qI2pO1+v2a0MgqWyp0Nn5uehjKX/zlFkPgvnCEQnF7PxaGFTBkF0PTOSBe5B7NAtU8PuehnRn4COijf6JoQPe27dctdidwI6r6F1JYkflC+G8HI4wiKGEH3kEBxRUqKLnzAyvgyilU77Dm+dY6PWHQVpVzkX4JWOJdqmD9OrwuK8IliZ38LAjXvYDCfwL94yEogeoefY+lHbyC/rjVZdd2X1aMrDng8xUfAMyT1eiJsMA0UFBlXvgFNkz7aGzo2bWI8D+dnMbiWslWSKIXtnr8J0Dpio6TfnEUJ5Fve2gPQ3o8OFaqdwpHt70DVZlqhEuEKUxG2Q+7O4vw0SOWprYbPzqYDwM2KHb2CFx68IL5kb8HEmOopJrVoEgwQgpwMJswoQF19/QkIWWCFKm08bkvjinv/ZDf7uixWBcI4C6kh1CqkN698GbDjvLsnD8ZJ69O0FYf5lgXq+lmVSqL91fh5Uo0/7oZ3cyAZeoRLGyx/pS5JVYVJJ0c/2imHLTP19WGImfd+dwugPRL50wiaB2gN4igg7tDY84Z3decWn82rjdcfwXGueAYiPqxqCtUwYOuHDdq7INLBhdGZGvqvxf2ev4eCcjNn6XQ9NRYAP2ruc+JKpMFV6s8aWVnQak8u6Q=="
+
+# Timestamp
+# Prevent the replay attack (https://en.wikipedia.org/wiki/Replay_attack)
+timestamp_limit: 5000
+
+# Customs keys
+# Add others secret keys for others endpoints in the webhook.
+# Example with and endpoint : Just decorate the endpoint like this.
+# @check_signature(secret_key=CONFIG_OBJ.get("my_key"))
+
+# my_key: "custom_key"
