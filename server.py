@@ -27,9 +27,9 @@
 import os
 import yaml
 
-from flask import Flask, Response, request
+from flask import Flask, Response, request, render_template
 
-from utils.decorators import check_signature
+from utils.decorators import check_signature, on_event
 from utils import utils
 
 
@@ -43,15 +43,45 @@ app = Flask(__name__)
 @app.route("/", methods=["GET"])
 def index():
     """Go to localhost:5000 to see a message"""
+    return render_template("index.html")
 
-    return ("This is a website.", 200, None)
 
-
-@app.route("/api/print", methods=["POST"])
-@check_signature(secret_key=CONFIG_OBJ.get("secret_key"))
-def print_test():
-    """ Send a POST request to localhost:5000/api/print with a JSON body."""
+@app.route("/echo", methods=["POST"])
+def echo():
+    """Display the data from the request"""
     print(request.get_json())
+    return Response(status=200)
+
+
+# Example
+
+# Endpoint definition
+@app.route("/project/new", methods=["POST"])
+# Check the signature
+@check_signature(secret_key=CONFIG_OBJ.get("secret_key"))
+# React on a precise event
+@on_event(event_type="New_Project")
+def create_project():
+    """This function demonstrates how to create the project directory
+    on the disk when the project is created on the prodex app."""
+
+    # 1. Get the content of the request
+    data = request.get_json()
+
+    # 2. Define the project root directory
+    projects_root = "/prod/projects"
+
+    # In this example, we used the reference
+    # for the name of the project directory
+    # But you can use the name too for example.
+    # 3. Get the reference of this project
+    project_reference = data.get("meta").get("reference")
+
+    # 4. Create the directory.
+    path = os.path.join(projects_root, project_reference)
+    os.mkdir(path)
+
+    # 5. Always return a response.
     return Response(status=200)
 
 

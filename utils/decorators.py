@@ -26,7 +26,7 @@
 
 from functools import wraps
 
-from flask import request, abort
+from flask import Response, request, abort
 
 from . import utils
 
@@ -48,6 +48,46 @@ def check_signature(secret_key: str):
                 request=request, secret=secret_key
             ):
                 abort(403)
+            return func(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
+
+
+def on_event(event_type: str, field_name: list = None):
+    """Execute the hook on the specified event.
+
+    Example : An `edit` on a `project` and more specially on the `description` field.
+    >>> @on_event(event_type="Change_Project", field_name=["description"])
+    >>> function_to_execute():
+    >>>     ...
+
+    :param event_type: The type of the event. e.g: `Change_Project`, `New_Contact`
+    :type event_type: str
+    :param field_name: Field names of the event. e.g: ["description"] for
+    an event on the field description, defaults to None
+    :type field_name: list, optional
+    """
+
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            data = request.get_json()
+            _event_type = data.get("event_type", None)
+            _field_name = data.get("field_name", None)
+
+            if _event_type != event_type:
+                # 202 Accepted
+                return Response(status=202)
+
+            if not field_name:
+                return func(*args, **kwargs)
+
+            if _field_name not in field_name:
+                # 202 Accepted
+                return Response(status=202)
+
             return func(*args, **kwargs)
 
         return wrapper
