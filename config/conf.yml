@@ -31,7 +31,7 @@
 # then they accept the request. Otherwise they reject it.
 #
 # We strongly recommend to pass the secret key to the server using environment variables.
-# You can also generate a key using
+# You can also generate a key using "ssh-keygen"
 #
 
 # Associate this key with your webhook in order to have secure endpoint.
