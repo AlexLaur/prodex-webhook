@@ -5,10 +5,17 @@
 # prodex-webhook
 The webhook for the prodex application
 
-## Installation
+## Setup
+***
 
-If you don't want to use Docker. You can also create a virtual env.
-But the Docker way is realy more simpliest.
+### What we need
+* Python 3.8
+
+(tasks are an optional feature)
+* redis server (As celery Broker) (optional)
+* Celery (optional)
+
+### Setup
 
 If you have virtualenv, you can go to step 2.
 (This process can be done with pyenv too)
@@ -30,7 +37,7 @@ If you have virtualenv, you can go to step 2.
    done.
    ```
 
-## Source Env
+### Source Env
 
 1. Activate the virtual environment:
 
@@ -42,7 +49,7 @@ If you have virtualenv, you can go to step 2.
 
    After activation, you should see `(venv)` above your command prompt.
 
-## Install packages
+### Install packages
 
 1. Use the package manager [pip](https://pip.pypa.io/en/stable/) to install requirements.txt.
 
@@ -50,15 +57,15 @@ If you have virtualenv, you can go to step 2.
    $ (venv) pip install -r requirements.txt
    ```
 
-## Launch the server
+### Launch the server
 
-1. Launch the server.
+   ```bash
+   $ (venv) python server.py
+   ```
 
-    ```bash
-    $ (venv) python server.py
-    ```
+### Launch Celery
 
-### TODO
-
-- Docker
-- Celery process
+   ```bash
+    $ cd src/
+    $ celery -A tasks worker -l INFO
+   ```
