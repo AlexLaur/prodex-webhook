@@ -32,6 +32,8 @@ from flask import Flask, Response, request, render_template
 from utils.decorators import check_signature, on_event
 from utils import utils
 
+from tasks import projects_tasks
+
 
 SCRIPT_PATH = os.path.dirname(__file__)
 CONFIG_FILE = os.path.join(SCRIPT_PATH, "config", "conf.yml")
@@ -57,9 +59,9 @@ def echo():
 
 # Endpoint definition
 @app.route("/project/new", methods=["POST"])
-# Check the signature
+# Check the signature (Optional but recommended)
 @check_signature(secret_key=CONFIG_OBJ.get("secret_key"))
-# React on a precise event
+# React on a precise event (Optional)
 @on_event(event_type="New_Project")
 def create_project():
     """This function demonstrates how to create the project directory
@@ -68,23 +70,16 @@ def create_project():
     # 1. Get the content of the request
     data = request.get_json()
 
-    # 2. Define the project root directory
-    projects_root = "/prod/projects"
+    # 2. Execute the asynchronous task
+    projects_tasks.create_project_folder.delay(request_data=data)
 
-    # In this example, we used the reference
-    # for the name of the project directory
-    # But you can use the name too for example.
-    # 3. Get the reference of this project
-    project_reference = data.get("meta").get("reference")
-
-    # 4. Create the directory.
-    path = os.path.join(projects_root, project_reference)
-    os.mkdir(path)
-
-    # 5. Always return a response.
+    # Always return a response.
     return Response(status=200)
 
 
 if __name__ == "__main__":
-    # use host="0.0.0.0" for docker
-    app.run(debug=True, use_reloader=True, host="0.0.0.0")
+    host = os.environ.get("HOST", "127.0.0.1")
+    debug = os.environ.get("DEBUG", 1)
+    use_reloader = os.environ.get("RELOADER", 1)
+
+    app.run(debug=debug, use_reloader=use_reloader, host=host)

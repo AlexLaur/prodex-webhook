@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 #
-# - __init__ -
+# - projects_tasks -
+#
+# An example file for task to use with the webhook
 #
 # Copyright (c) 2020 Prodex
 #
@@ -22,6 +24,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# from .celery import celery_app
+import os
 
-# __all__ = ("celery_app",)
+from . import celery_app
+
+
+@celery_app.task
+def create_project_folder(request_data):
+    """Task example to create the direcotry for the project
+
+    :param request_data: The data from the request
+    :type request_data: dict
+    """
+    # Define the project root directory
+    projects_root = "/prod/projects"
+
+    # Get the reference of the project
+    project_reference = request_data.get("meta").get("reference")
+
+    # Create the directory.
+    path = os.path.join(projects_root, project_reference)
+    os.mkdir(path)
