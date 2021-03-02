@@ -1,0 +1,42 @@
+version: "3"
+services:
+
+    # Webhook service
+    server:
+        build:
+            context: ./src
+            dockerfile: Dockerfile
+        container_name: prodex-webhook
+        command: bash -c "python server.py"
+        volumes:
+            - ./src:/usr/src/prodex-webhook/
+        ports:
+            - 5000:5000
+        environment:
+            - DEBUG=1
+            - RELOADER=1
+            - HOST=0.0.0.0
+
+        depends_on:
+            - redis
+
+    # Celery service
+    celery:
+        build: ./src
+        command: celery -A tasks worker -l INFO
+        volumes:
+            - ./src:/usr/src/prodex-webhook/
+        environment:
+            - DEBUG=1
+            - CELERY_BROKER=redis://redis:6379/0
+            - CELERY_BACKEND=redis://redis:6379/0
+        depends_on:
+            - server
+            - redis
+
+    # Redis service
+    redis:
+        image: redis:alpine
+
+volumes:
+    node-modules: null
