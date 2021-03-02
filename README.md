@@ -6,7 +6,6 @@
 The webhook for the prodex application
 
 ## Setup
-***
 
 ### What we need
 * Python 3.8
@@ -22,19 +21,19 @@ If you have virtualenv, you can go to step 2.
 1. From the `prodex-webhook` directory, install the `virtualenv` package:
 
    ```bash
-   $ pip install virtualenv
-   Collecting virtualenv
-   Installing collected packages: virtualenv
-   Successfully installed virtualenv-16.6.0
+      $ pip install virtualenv
+      Collecting virtualenv
+      Installing collected packages: virtualenv
+      Successfully installed virtualenv-16.6.0
    ```
 
 2. Create a virtual environment named `venv`:
 
    ```bash
-   $ virtualenv venv
-   Running virtualenv with interpreter /usr/bin/python3.8
-   Installing setuptools, pip, wheel...
-   done.
+      $ virtualenv venv
+      Running virtualenv with interpreter /usr/bin/python3.8
+      Installing setuptools, pip, wheel...
+      done.
    ```
 
 ### Source Env
@@ -42,9 +41,9 @@ If you have virtualenv, you can go to step 2.
 1. Activate the virtual environment:
 
    ```bash
-   $ source venv/bin/activate
-   (venv)
-   $
+      $ source venv/bin/activate
+      (venv)
+      $
    ```
 
    After activation, you should see `(venv)` above your command prompt.
@@ -53,19 +52,19 @@ If you have virtualenv, you can go to step 2.
 
 1. Use the package manager [pip](https://pip.pypa.io/en/stable/) to install requirements.txt.
 
-   ```bash
+```bash
    $ (venv) pip install -r requirements.txt
-   ```
+```
 
 ### Launch the server
 
-   ```bash
+```bash
    $ (venv) python server.py
-   ```
+```
 
 ### Launch Celery
 
-   ```bash
-    $ cd src/
-    $ celery -A tasks worker -l INFO
-   ```
+```bash
+   $ cd src/
+   $ celery -A tasks worker -l INFO
+```
